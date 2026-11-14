@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WFS-SMC Weekly Services Record</title>
+<style>
+:root{--blue:#0b3d91;--gold:#d4a017;--bg:#f4f7fb;--card:#fff;--text:#19202a;--muted:#657084;--danger:#b42318;--ok:#137333}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,var(--blue),#1769aa);color:#fff;padding:22px 16px}.wrap{max-width:1400px;margin:auto}.brand{display:flex;gap:14px;align-items:center}.logo{width:54px;height:54px;border-radius:12px;background:var(--gold);display:grid;place-items:center;color:var(--blue);font-weight:900}.brand h1{margin:0;font-size:1.45rem}.brand p{margin:5px 0 0;opacity:.9}
+main{padding:18px 12px 40px}.card{background:var(--card);border-radius:14px;box-shadow:0 6px 24px #18324a18;padding:16px;margin-bottom:16px}.grid{display:grid;grid-template-columns:repeat(4,minmax(170px,1fr));gap:12px}label{font-weight:700;font-size:.86rem;color:#344054}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:10px;border:1px solid #cfd6e1;border-radius:8px;margin-top:5px;background:#fff}textarea{min-height:72px}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer}.primary{background:var(--blue);color:#fff}.secondary{background:#e8eef8;color:var(--blue)}.gold{background:var(--gold);color:#1b2a45}.danger{background:#fee4e2;color:var(--danger)}
+.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:1150px}th,td{border:1px solid #d8dee8;padding:7px;text-align:right}th{background:#e8eef8;color:#173b70;position:sticky;top:0;z-index:1}th:first-child,td:first-child{text-align:left;min-width:230px}.money{width:105px;text-align:right}.total{font-weight:800;background:#f1f5fb}.section-row td{background:#0b3d91;color:#fff;font-weight:800;text-align:left}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric{border-left:5px solid var(--gold);background:#f8fafc;padding:14px;border-radius:10px}.metric span{display:block;color:var(--muted);font-size:.82rem}.metric strong{display:block;font-size:1.35rem;margin-top:5px}.status{color:var(--ok);font-weight:700}.small{font-size:.82rem;color:var(--muted)}
+@media(max-width:850px){.grid,.summary{grid-template-columns:1fr 1fr}}@media(max-width:520px){.grid,.summary{grid-template-columns:1fr}.brand h1{font-size:1.1rem}}
+@media print{body{background:#fff}header{padding:10px}.actions,.no-print{display:none!important}.card{box-shadow:none;border:1px solid #bbb;padding:9px;margin:8px 0}main{padding:0}.table-wrap{overflow:visible}table{min-width:0;font-size:8.5px}th,td{padding:3px}.money{width:55px}.summary{grid-template-columns:repeat(4,1fr)}@page{size:landscape;margin:8mm}}
+</style>
+</head>
+<body>
+<header><div class="wrap brand"><div class="logo">WFS</div><div><h1>Wesina Financial Services-SMC Limited</h1><p>Weekly Printing and Related Services Record</p></div></div></header>
+<main class="wrap">
+<section class="card">
+<div class="grid">
+<label>Week number<input id="week" type="number" min="1" max="53" value="45"></label>
+<label>From<input id="from" type="date" value="2026-11-02"></label>
+<label>To<input id="to" type="date" value="2026-11-08"></label>
+<label>Branch<input id="branch" value="Mbale Main Branch - Cathedral Ave"></label>
+<label>Prepared by<input id="prepared" value="Mr. Wesina Bosco"></label>
+<label>Checked by<input id="checked" value="Dr. Wesina Bosco"></label>
+<label>Audit date<input id="audit" type="date" value="2026-11-09"></label>
+<label>Status<select id="status"><option>Draft</option><option>Reviewed</option><option selected>Audited Weekly</option></select></label>
+</div>
+</section>
+<section class="card"><div class="table-wrap"><table id="records"><thead><tr><th>Item / Particulars</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th><th>Weekly total</th><th>Remarks</th></tr></thead><tbody></tbody></table></div></section>
+<section class="card"><h2>Closing information</h2><div class="grid"><label style="grid-column:span 2">Closing remarks / action taken<textarea id="closing">Heavy printing demand during the week. Receipts, job slips and payment messages should be attached for verification.</textarea></label><label style="grid-column:span 2">Declaration<textarea id="declaration">I confirm that the weekly printing-service totals have been reviewed against supporting receipts, job slips and payment records and are correct to the best of my knowledge.</textarea></label></div></section>
+<section class="summary" aria-live="polite"><div class="metric"><span>Total service income</span><strong id="income">UGX 0</strong></div><div class="metric"><span>Total expenses</span><strong id="expenses">UGX 0</strong></div><div class="metric"><span>Net collections</span><strong id="net">UGX 0</strong></div><div class="metric"><span>Record status</span><strong class="status" id="statusView">Audited Weekly</strong></div></section>
+<section class="card no-print"><div class="actions"><button class="primary" id="save">Save in browser</button><button class="secondary" id="load">Load saved record</button><button class="gold" id="export">Export JSON</button><button class="secondary" id="importBtn">Import JSON</button><input id="importFile" type="file" accept="application/json" hidden><button class="primary" id="print">Print / Save PDF</button><button class="danger" id="reset">Reset sample</button></div><p class="small">Data is stored only in this browser. Do not enter customer personal information, passwords, PINs, account credentials, or confidential financial records.</p></section>
+</main>
+<script>
+(()=>{const days=['mon','tue','wed','thu','fri','sat','sun'];const rows=[
+{section:'1. Printing and Photocopying Services'},
+{name:'Black-and-White Printing',v:[48000,39000,54000,42000,65000,31000,12000],r:'Exam papers printing surge from nearby secondary school'},
+{name:'Colour Printing',v:[25000,18000,32000,20000,45000,28000,15000],r:'Graduation brochures and certificates'},
+{name:'Black-and-White Photocopying',v:[34000,28000,42000,31000,48000,22000,8000]},
+{name:'Colour Photocopying',v:[16000,12000,18000,14000,24000,15000,6000]},
+{name:'ID Photocopying',v:[12000,9000,14000,11000,16000,8000,3000]},
+{total:'Total Printing / Photocopying',range:[1,5]},
+{section:'2. Photography and Document Services'},
+{name:'Passport-Size Photographs',v:[35000,25000,40000,30000,50000,35000,15000],r:'High volume passport photos for UNEB and passport registration'},
+{name:'Photo Printing',v:[14000,10000,22000,12000,28000,26000,18000]},
+{name:'Scanning',v:[9500,7000,11000,8500,14000,6000,2000]},
+{name:'Typing / Editing',v:[18000,14000,22000,16000,25000,12000,5000]},
+{name:'CV / Document Preparation',v:[20000,15000,25000,18000,30000,15000,5000]},
+{name:'Binding and Laminating',v:[15000,12000,21000,16000,35000,18000,4000]},
+{total:'Total Photo / Document Services',range:[8,13]},
+{section:'3. Other Services and Weekly Closing'},
+{name:'Online and Other Related Services',v:[32000,28000,45000,30000,52000,25000,10000],r:'URA tax return filings and university online applications'},
+{grand:'Total Daily Service Income'},
+{expense:'Daily Service Expenses',v:[52000,15000,30000,12000,35000,10000,6000]},
+{net:'Net Daily Collections'}];
+const tbody=document.querySelector('#records tbody'); const fmt=n=>'UGX '+Math.round(n||0).toLocaleString('en-UG');
+function build(){tbody.innerHTML='';rows.forEach((x,i)=>{const tr=document.createElement('tr');tr.dataset.i=i;if(x.section){tr.className='section-row';tr.innerHTML=`<td colspan="10">${x.section}</td>`}else{if(x.total||x.grand||x.net)tr.className='total';const label=x.name||x.total||x.grand||x.expense||x.net;tr.innerHTML=`<td>${label}</td>`+days.map((d,j)=>x.name||x.expense?`<td><input class="money" type="number" min="0" step="500" data-day="${j}" value="${x.v[j]}"></td>`:`<td data-sum="${j}">0</td>`).join('')+`<td data-week>0</td><td>${x.name||x.expense?`<input data-remark value="${x.r||''}">`:''}</td>`}tbody.appendChild(tr)});calc()}
+function dataRows(){return rows.map((x,i)=>({x,tr:tbody.querySelector(`tr[data-i="${i}"]`)}))}
+function vals(tr){return days.map((_,j)=>Number(tr.querySelector(`[data-day="${j}"]`)?.value)||0)}
+function calc(){const all=dataRows();const actual={};all.forEach(({x,tr},i)=>{if(x.name||x.expense){actual[i]=vals(tr);tr.querySelector('[data-week]').textContent=fmt(actual[i].reduce((a,b)=>a+b,0))}});all.forEach(({x,tr})=>{let v;if(x.total)v=days.map((_,j)=>{let s=0;for(let k=x.range[0];k<=x.range[1];k++)s+=(actual[k]?.[j]||0);return s});if(x.grand)v=days.map((_,j)=>Object.keys(actual).filter(k=>rows[k].name).reduce((s,k)=>s+actual[k][j],0));if(x.net){const gross=all.find(a=>a.x.grand).tr;const exp=all.find(a=>a.x.expense).tr;v=days.map((_,j)=>Number(gross.querySelector(`[data-sum="${j}"]`).dataset.value||0)-vals(exp)[j])}if(v){v.forEach((n,j)=>{const c=tr.querySelector(`[data-sum="${j}"]`);c.textContent=fmt(n);c.dataset.value=n});tr.querySelector('[data-week]').textContent=fmt(v.reduce((a,b)=>a+b,0))}});const gross=all.find(a=>a.x.grand).tr;const exp=all.find(a=>a.x.expense).tr;const inc=days.reduce((s,_,j)=>s+Number(gross.querySelector(`[data-sum="${j}"]`).dataset.value||0),0);const ex=vals(exp).reduce((a,b)=>a+b,0);document.querySelector('#income').textContent=fmt(inc);document.querySelector('#expenses').textContent=fmt(ex);document.querySelector('#net').textContent=fmt(inc-ex);document.querySelector('#statusView').textContent=document.querySelector('#status').value}
+function snapshot(){return{meta:Object.fromEntries(['week','from','to','branch','prepared','checked','audit','status','closing','declaration'].map(id=>[id,document.querySelector('#'+id).value])),entries:dataRows().filter(a=>a.x.name||a.x.expense).map(({x,tr})=>({name:x.name||x.expense,values:vals(tr),remark:tr.querySelector('[data-remark]')?.value||''}))}}
+function apply(d){if(!d||!d.meta||!Array.isArray(d.entries))throw Error('Invalid record file');Object.entries(d.meta).forEach(([k,v])=>{const el=document.querySelector('#'+k);if(el)el.value=v});dataRows().filter(a=>a.x.name||a.x.expense).forEach(({x,tr})=>{const e=d.entries.find(z=>z.name===(x.name||x.expense));if(e){days.forEach((_,j)=>tr.querySelector(`[data-day="${j}"]`).value=Number(e.values[j])||0);const r=tr.querySelector('[data-remark]');if(r)r.value=e.remark||''}});calc()}
+tbody.addEventListener('input',calc);document.querySelector('#status').addEventListener('change',calc);document.querySelector('#save').onclick=()=>{localStorage.setItem('wfsWeeklyRecord',JSON.stringify(snapshot()));alert('Weekly record saved in this browser.')};document.querySelector('#load').onclick=()=>{const s=localStorage.getItem('wfsWeeklyRecord');if(!s)return alert('No saved record found.');apply(JSON.parse(s))};document.querySelector('#export').onclick=()=>{const b=new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`WFS-week-${document.querySelector('#week').value}.json`;a.click();URL.revokeObjectURL(a.href)};document.querySelector('#importBtn').onclick=()=>document.querySelector('#importFile').click();document.querySelector('#importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{apply(JSON.parse(r.result))}catch(err){alert(err.message)}};r.readAsText(f)};document.querySelector('#print').onclick=()=>window.print();document.querySelector('#reset').onclick=()=>{if(confirm('Reset to the Week 45 sample record?'))build()};build()})();
+</script>
+</body></html>
