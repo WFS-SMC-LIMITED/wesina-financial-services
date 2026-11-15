@@ -3,67 +3,585 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Weekly printing and related services record for Wesina Financial Services-SMC Limited.">
 <title>WFS-SMC Weekly Services Record</title>
 <style>
-:root{--blue:#0b3d91;--gold:#d4a017;--bg:#f4f7fb;--card:#fff;--text:#19202a;--muted:#657084;--danger:#b42318;--ok:#137333}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
-header{background:linear-gradient(135deg,var(--blue),#1769aa);color:#fff;padding:22px 16px}.wrap{max-width:1400px;margin:auto}.brand{display:flex;gap:14px;align-items:center}.logo{width:54px;height:54px;border-radius:12px;background:var(--gold);display:grid;place-items:center;color:var(--blue);font-weight:900}.brand h1{margin:0;font-size:1.45rem}.brand p{margin:5px 0 0;opacity:.9}
-main{padding:18px 12px 40px}.card{background:var(--card);border-radius:14px;box-shadow:0 6px 24px #18324a18;padding:16px;margin-bottom:16px}.grid{display:grid;grid-template-columns:repeat(4,minmax(170px,1fr));gap:12px}label{font-weight:700;font-size:.86rem;color:#344054}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:10px;border:1px solid #cfd6e1;border-radius:8px;margin-top:5px;background:#fff}textarea{min-height:72px}
-.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer}.primary{background:var(--blue);color:#fff}.secondary{background:#e8eef8;color:var(--blue)}.gold{background:var(--gold);color:#1b2a45}.danger{background:#fee4e2;color:var(--danger)}
-.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:1150px}th,td{border:1px solid #d8dee8;padding:7px;text-align:right}th{background:#e8eef8;color:#173b70;position:sticky;top:0;z-index:1}th:first-child,td:first-child{text-align:left;min-width:230px}.money{width:105px;text-align:right}.total{font-weight:800;background:#f1f5fb}.section-row td{background:#0b3d91;color:#fff;font-weight:800;text-align:left}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric{border-left:5px solid var(--gold);background:#f8fafc;padding:14px;border-radius:10px}.metric span{display:block;color:var(--muted);font-size:.82rem}.metric strong{display:block;font-size:1.35rem;margin-top:5px}.status{color:var(--ok);font-weight:700}.small{font-size:.82rem;color:var(--muted)}
-@media(max-width:850px){.grid,.summary{grid-template-columns:1fr 1fr}}@media(max-width:520px){.grid,.summary{grid-template-columns:1fr}.brand h1{font-size:1.1rem}}
-@media print{body{background:#fff}header{padding:10px}.actions,.no-print{display:none!important}.card{box-shadow:none;border:1px solid #bbb;padding:9px;margin:8px 0}main{padding:0}.table-wrap{overflow:visible}table{min-width:0;font-size:8.5px}th,td{padding:3px}.money{width:55px}.summary{grid-template-columns:repeat(4,1fr)}@page{size:landscape;margin:8mm}}
+:root{
+  --blue:#0b3d91;--blue-2:#1769aa;--gold:#d4a017;
+  --bg:#f4f7fb;--card:#fff;--text:#19202a;--muted:#5b6678;
+  --line:#d8dee8;--head:#e8eef8;--head-text:#173b70;--field:#fff;--field-line:#cfd6e1;
+  --total:#f1f5fb;--danger:#b42318;--danger-bg:#fee4e2;--ok:#137333;--warn:#9a6700;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f141b;--card:#18202b;--text:#e6ebf2;--muted:#9aa6b8;
+  --line:#2c3746;--head:#1f2a3a;--head-text:#cfe0ff;--field:#111821;--field-line:#344155;
+  --total:#1c2532;--danger:#ffb4ab;--danger-bg:#3b1a17;--ok:#6dd58c;--warn:#f0c14b;
+}}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.4}
+header{background:linear-gradient(135deg,var(--blue),var(--blue-2));color:#fff;padding:20px 16px}
+.wrap{max-width:1400px;margin:auto}
+.brand{display:flex;gap:14px;align-items:center}
+.logo{flex:none;width:54px;height:54px;border-radius:12px;background:var(--gold);display:grid;place-items:center;color:var(--blue);font-weight:900}
+.brand h1{margin:0;font-size:1.4rem}
+.brand p{margin:4px 0 0;opacity:.9}
+main{padding:18px 16px 40px}
+.card{background:var(--card);border-radius:14px;box-shadow:0 6px 24px #18324a18;padding:16px;margin-bottom:16px}
+.card h2{margin:0 0 12px;font-size:1.1rem}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.span-2{grid-column:span 2}
+label{font-weight:700;font-size:.86rem;color:var(--muted)}
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{width:100%;padding:9px 10px;border:1px solid var(--field-line);border-radius:8px;margin-top:5px;background:var(--field)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:1px}
+textarea{min-height:76px;resize:vertical}
+.actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+.actions+.actions{margin-top:10px}
+button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.primary{background:var(--blue);color:#fff}
+.secondary{background:var(--head);color:var(--head-text)}
+.gold{background:var(--gold);color:#1b2a45}
+.danger{background:var(--danger-bg);color:var(--danger)}
+.table-wrap{overflow:auto;max-height:75vh}
+table{border-collapse:collapse;width:100%;min-width:1150px}
+th,td{border:1px solid var(--line);padding:6px;text-align:right;vertical-align:middle}
+th{background:var(--head);color:var(--head-text);position:sticky;top:0;z-index:1}
+th:first-child,td:first-child{text-align:left;min-width:230px}
+td input{margin:0}
+.money{width:105px;text-align:right}
+.money.invalid{border-color:var(--danger);outline-color:var(--danger)}
+.remark{min-width:200px}
+tr.total td{font-weight:800;background:var(--total)}
+tr.section td{background:var(--blue);color:#fff;font-weight:800;text-align:left}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.metric{border-left:5px solid var(--gold);background:var(--card);padding:14px;border-radius:10px;box-shadow:0 6px 24px #18324a12}
+.metric span{display:block;color:var(--muted);font-size:.82rem}
+.metric strong{display:block;font-size:1.3rem;margin-top:5px}
+.negative{color:var(--danger)}
+.status-Draft{color:var(--warn)}.status-Reviewed{color:var(--blue-2)}.status-Audited{color:var(--ok)}
+.small{font-size:.82rem;color:var(--muted)}
+.saved-list{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
+.saved-list li{display:flex;gap:8px;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.saved-list li button{padding:6px 10px}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#19202a;color:#fff;padding:10px 16px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:calc(100% - 32px)}
+#toast.show{opacity:1}
+.print-only{display:none}
+.signatures{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:24px}
+.signatures div{border-top:1px solid #000;padding-top:4px;font-size:.8rem}
+@media(max-width:850px){.grid,.summary{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.grid,.summary{grid-template-columns:1fr}.span-2{grid-column:auto}.brand h1{font-size:1.1rem}}
+@media print{
+  :root{--bg:#fff;--card:#fff;--text:#000;--muted:#333;--line:#999;--head:#e8eef8;--head-text:#173b70;--field:#fff;--field-line:#fff;--total:#f1f5fb}
+  body{background:#fff}header{padding:8px 10px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .no-print{display:none!important}.print-only{display:block}
+  .card,.metric{box-shadow:none;border:1px solid #bbb;padding:8px;margin:6px 0}
+  main{padding:0}.table-wrap{overflow:visible;max-height:none}
+  table{min-width:0;font-size:8.5px}th,td{padding:2px 3px}th{position:static}
+  input,select,textarea{border:0;padding:0;margin:0;background:none;resize:none}
+  textarea{min-height:0}.money{width:auto}
+  tr.section td,tr.total td,th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .summary{grid-template-columns:repeat(4,1fr)}
+  @page{size:landscape;margin:8mm}
+}
 </style>
 </head>
 <body>
-<header><div class="wrap brand"><div class="logo">WFS</div><div><h1>Wesina Financial Services-SMC Limited</h1><p>Weekly Printing and Related Services Record</p></div></div></header>
+<header>
+  <div class="wrap brand">
+    <div class="logo" aria-hidden="true">WFS</div>
+    <div>
+      <h1>Wesina Financial Services-SMC Limited</h1>
+      <p>Weekly Printing and Related Services Record</p>
+    </div>
+  </div>
+</header>
+
 <main class="wrap">
-<section class="card">
-<div class="grid">
-<label>Week number<input id="week" type="number" min="1" max="53" value="45"></label>
-<label>From<input id="from" type="date" value="2026-11-02"></label>
-<label>To<input id="to" type="date" value="2026-11-08"></label>
-<label>Branch<input id="branch" value="Mbale Main Branch - Cathedral Ave"></label>
-<label>Prepared by<input id="prepared" value="Mr. Wesina Bosco"></label>
-<label>Checked by<input id="checked" value="Dr. Wesina Bosco"></label>
-<label>Audit date<input id="audit" type="date" value="2026-11-09"></label>
-<label>Status<select id="status"><option>Draft</option><option>Reviewed</option><option selected>Audited Weekly</option></select></label>
-</div>
-</section>
-<section class="card"><div class="table-wrap"><table id="records"><thead><tr><th>Item / Particulars</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th><th>Weekly total</th><th>Remarks</th></tr></thead><tbody></tbody></table></div></section>
-<section class="card"><h2>Closing information</h2><div class="grid"><label style="grid-column:span 2">Closing remarks / action taken<textarea id="closing">Heavy printing demand during the week. Receipts, job slips and payment messages should be attached for verification.</textarea></label><label style="grid-column:span 2">Declaration<textarea id="declaration">I confirm that the weekly printing-service totals have been reviewed against supporting receipts, job slips and payment records and are correct to the best of my knowledge.</textarea></label></div></section>
-<section class="summary" aria-live="polite"><div class="metric"><span>Total service income</span><strong id="income">UGX 0</strong></div><div class="metric"><span>Total expenses</span><strong id="expenses">UGX 0</strong></div><div class="metric"><span>Net collections</span><strong id="net">UGX 0</strong></div><div class="metric"><span>Record status</span><strong class="status" id="statusView">Audited Weekly</strong></div></section>
-<section class="card no-print"><div class="actions"><button class="primary" id="save">Save in browser</button><button class="secondary" id="load">Load saved record</button><button class="gold" id="export">Export JSON</button><button class="secondary" id="importBtn">Import JSON</button><input id="importFile" type="file" accept="application/json" hidden><button class="primary" id="print">Print / Save PDF</button><button class="danger" id="reset">Reset sample</button></div><p class="small">Data is stored only in this browser. Do not enter customer personal information, passwords, PINs, account credentials, or confidential financial records.</p></section>
+  <section class="card" aria-labelledby="details-h">
+    <h2 id="details-h">Record details</h2>
+    <div class="grid">
+      <label>Week number<input id="week" type="number" min="1" max="53"></label>
+      <label>From (Monday)<input id="from" type="date"></label>
+      <label>To (Sunday)<input id="to" type="date"></label>
+      <label>Branch<input id="branch" autocomplete="off"></label>
+      <label>Prepared by<input id="prepared" autocomplete="off"></label>
+      <label>Checked by<input id="checked" autocomplete="off"></label>
+      <label>Audit date<input id="audit" type="date"></label>
+      <label>Status
+        <select id="status">
+          <option>Draft</option>
+          <option>Reviewed</option>
+          <option>Audited Weekly</option>
+        </select>
+      </label>
+    </div>
+  </section>
+
+  <section class="card" aria-label="Daily records">
+    <div class="table-wrap">
+      <table id="records">
+        <thead>
+          <tr>
+            <th scope="col">Item / Particulars</th>
+            <th scope="col">Mon</th><th scope="col">Tue</th><th scope="col">Wed</th>
+            <th scope="col">Thu</th><th scope="col">Fri</th><th scope="col">Sat</th><th scope="col">Sun</th>
+            <th scope="col">Weekly total</th>
+            <th scope="col">Remarks</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="summary" aria-live="polite">
+    <div class="metric"><span>Total service income</span><strong id="income">UGX 0</strong></div>
+    <div class="metric"><span>Total expenses</span><strong id="expenses">UGX 0</strong></div>
+    <div class="metric"><span>Net collections</span><strong id="net">UGX 0</strong></div>
+    <div class="metric"><span>Record status</span><strong id="statusView">Draft</strong></div>
+  </section>
+
+  <section class="card" aria-labelledby="closing-h">
+    <h2 id="closing-h">Closing information</h2>
+    <div class="grid">
+      <label class="span-2">Closing remarks / action taken<textarea id="closing"></textarea></label>
+      <label class="span-2">Declaration<textarea id="declaration"></textarea></label>
+    </div>
+    <div class="signatures print-only">
+      <div>Prepared by (signature &amp; date)</div>
+      <div>Checked by (signature &amp; date)</div>
+    </div>
+  </section>
+
+  <section class="card no-print" aria-label="Actions">
+    <div class="actions">
+      <button class="primary" id="save" type="button">Save week</button>
+      <button class="secondary" id="newWeek" type="button">New blank week</button>
+      <button class="primary" id="print" type="button">Print / Save PDF</button>
+    </div>
+    <div class="actions">
+      <button class="gold" id="export" type="button">Export JSON</button>
+      <button class="secondary" id="importBtn" type="button">Import JSON</button>
+      <input id="importFile" type="file" accept="application/json,.json" hidden>
+      <button class="secondary" id="csv" type="button">Export CSV</button>
+      <button class="danger" id="reset" type="button">Load sample week</button>
+    </div>
+    <p class="small">Changes are auto-saved as a draft in this browser. Data stays on this device only — export JSON regularly as a backup.
+      Do not enter customer personal information, passwords, PINs, account credentials or confidential financial records.</p>
+  </section>
+
+  <section class="card no-print" aria-labelledby="saved-h">
+    <h2 id="saved-h">Saved weeks</h2>
+    <p class="small" id="savedEmpty">No weeks saved in this browser yet.</p>
+    <ul class="saved-list" id="savedList"></ul>
+  </section>
 </main>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
 <script>
-(()=>{const days=['mon','tue','wed','thu','fri','sat','sun'];const rows=[
-{section:'1. Printing and Photocopying Services'},
-{name:'Black-and-White Printing',v:[48000,39000,54000,42000,65000,31000,12000],r:'Exam papers printing surge from nearby secondary school'},
-{name:'Colour Printing',v:[25000,18000,32000,20000,45000,28000,15000],r:'Graduation brochures and certificates'},
-{name:'Black-and-White Photocopying',v:[34000,28000,42000,31000,48000,22000,8000]},
-{name:'Colour Photocopying',v:[16000,12000,18000,14000,24000,15000,6000]},
-{name:'ID Photocopying',v:[12000,9000,14000,11000,16000,8000,3000]},
-{total:'Total Printing / Photocopying',range:[1,5]},
-{section:'2. Photography and Document Services'},
-{name:'Passport-Size Photographs',v:[35000,25000,40000,30000,50000,35000,15000],r:'High volume passport photos for UNEB and passport registration'},
-{name:'Photo Printing',v:[14000,10000,22000,12000,28000,26000,18000]},
-{name:'Scanning',v:[9500,7000,11000,8500,14000,6000,2000]},
-{name:'Typing / Editing',v:[18000,14000,22000,16000,25000,12000,5000]},
-{name:'CV / Document Preparation',v:[20000,15000,25000,18000,30000,15000,5000]},
-{name:'Binding and Laminating',v:[15000,12000,21000,16000,35000,18000,4000]},
-{total:'Total Photo / Document Services',range:[8,13]},
-{section:'3. Other Services and Weekly Closing'},
-{name:'Online and Other Related Services',v:[32000,28000,45000,30000,52000,25000,10000],r:'URA tax return filings and university online applications'},
-{grand:'Total Daily Service Income'},
-{expense:'Daily Service Expenses',v:[52000,15000,30000,12000,35000,10000,6000]},
-{net:'Net Daily Collections'}];
-const tbody=document.querySelector('#records tbody'); const fmt=n=>'UGX '+Math.round(n||0).toLocaleString('en-UG');
-function build(){tbody.innerHTML='';rows.forEach((x,i)=>{const tr=document.createElement('tr');tr.dataset.i=i;if(x.section){tr.className='section-row';tr.innerHTML=`<td colspan="10">${x.section}</td>`}else{if(x.total||x.grand||x.net)tr.className='total';const label=x.name||x.total||x.grand||x.expense||x.net;tr.innerHTML=`<td>${label}</td>`+days.map((d,j)=>x.name||x.expense?`<td><input class="money" type="number" min="0" step="500" data-day="${j}" value="${x.v[j]}"></td>`:`<td data-sum="${j}">0</td>`).join('')+`<td data-week>0</td><td>${x.name||x.expense?`<input data-remark value="${x.r||''}">`:''}</td>`}tbody.appendChild(tr)});calc()}
-function dataRows(){return rows.map((x,i)=>({x,tr:tbody.querySelector(`tr[data-i="${i}"]`)}))}
-function vals(tr){return days.map((_,j)=>Number(tr.querySelector(`[data-day="${j}"]`)?.value)||0)}
-function calc(){const all=dataRows();const actual={};all.forEach(({x,tr},i)=>{if(x.name||x.expense){actual[i]=vals(tr);tr.querySelector('[data-week]').textContent=fmt(actual[i].reduce((a,b)=>a+b,0))}});all.forEach(({x,tr})=>{let v;if(x.total)v=days.map((_,j)=>{let s=0;for(let k=x.range[0];k<=x.range[1];k++)s+=(actual[k]?.[j]||0);return s});if(x.grand)v=days.map((_,j)=>Object.keys(actual).filter(k=>rows[k].name).reduce((s,k)=>s+actual[k][j],0));if(x.net){const gross=all.find(a=>a.x.grand).tr;const exp=all.find(a=>a.x.expense).tr;v=days.map((_,j)=>Number(gross.querySelector(`[data-sum="${j}"]`).dataset.value||0)-vals(exp)[j])}if(v){v.forEach((n,j)=>{const c=tr.querySelector(`[data-sum="${j}"]`);c.textContent=fmt(n);c.dataset.value=n});tr.querySelector('[data-week]').textContent=fmt(v.reduce((a,b)=>a+b,0))}});const gross=all.find(a=>a.x.grand).tr;const exp=all.find(a=>a.x.expense).tr;const inc=days.reduce((s,_,j)=>s+Number(gross.querySelector(`[data-sum="${j}"]`).dataset.value||0),0);const ex=vals(exp).reduce((a,b)=>a+b,0);document.querySelector('#income').textContent=fmt(inc);document.querySelector('#expenses').textContent=fmt(ex);document.querySelector('#net').textContent=fmt(inc-ex);document.querySelector('#statusView').textContent=document.querySelector('#status').value}
-function snapshot(){return{meta:Object.fromEntries(['week','from','to','branch','prepared','checked','audit','status','closing','declaration'].map(id=>[id,document.querySelector('#'+id).value])),entries:dataRows().filter(a=>a.x.name||a.x.expense).map(({x,tr})=>({name:x.name||x.expense,values:vals(tr),remark:tr.querySelector('[data-remark]')?.value||''}))}}
-function apply(d){if(!d||!d.meta||!Array.isArray(d.entries))throw Error('Invalid record file');Object.entries(d.meta).forEach(([k,v])=>{const el=document.querySelector('#'+k);if(el)el.value=v});dataRows().filter(a=>a.x.name||a.x.expense).forEach(({x,tr})=>{const e=d.entries.find(z=>z.name===(x.name||x.expense));if(e){days.forEach((_,j)=>tr.querySelector(`[data-day="${j}"]`).value=Number(e.values[j])||0);const r=tr.querySelector('[data-remark]');if(r)r.value=e.remark||''}});calc()}
-tbody.addEventListener('input',calc);document.querySelector('#status').addEventListener('change',calc);document.querySelector('#save').onclick=()=>{localStorage.setItem('wfsWeeklyRecord',JSON.stringify(snapshot()));alert('Weekly record saved in this browser.')};document.querySelector('#load').onclick=()=>{const s=localStorage.getItem('wfsWeeklyRecord');if(!s)return alert('No saved record found.');apply(JSON.parse(s))};document.querySelector('#export').onclick=()=>{const b=new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`WFS-week-${document.querySelector('#week').value}.json`;a.click();URL.revokeObjectURL(a.href)};document.querySelector('#importBtn').onclick=()=>document.querySelector('#importFile').click();document.querySelector('#importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{apply(JSON.parse(r.result))}catch(err){alert(err.message)}};r.readAsText(f)};document.querySelector('#print').onclick=()=>window.print();document.querySelector('#reset').onclick=()=>{if(confirm('Reset to the Week 45 sample record?'))build()};build()})();
+(() => {
+  'use strict';
+
+  /* ---------- Configuration ---------- */
+
+  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const META_FIELDS = ['week', 'from', 'to', 'branch', 'prepared', 'checked', 'audit', 'status', 'closing', 'declaration'];
+  const STORE_WEEKS = 'wfsWeeks.v2';      // { [key]: record }
+  const STORE_DRAFT = 'wfsDraft.v2';      // current unsaved working record
+  const STORE_LEGACY = 'wfsWeeklyRecord'; // single record from version 1
+
+  // Row layout. type: section | item | subtotal | income | expense | net
+  const LAYOUT = [
+    { type: 'section', label: '1. Printing and Photocopying Services' },
+    { type: 'item', group: 'print', label: 'Black-and-White Printing' },
+    { type: 'item', group: 'print', label: 'Colour Printing' },
+    { type: 'item', group: 'print', label: 'Black-and-White Photocopying' },
+    { type: 'item', group: 'print', label: 'Colour Photocopying' },
+    { type: 'item', group: 'print', label: 'ID Photocopying' },
+    { type: 'subtotal', group: 'print', label: 'Total Printing / Photocopying' },
+    { type: 'section', label: '2. Photography and Document Services' },
+    { type: 'item', group: 'photo', label: 'Passport-Size Photographs' },
+    { type: 'item', group: 'photo', label: 'Photo Printing' },
+    { type: 'item', group: 'photo', label: 'Scanning' },
+    { type: 'item', group: 'photo', label: 'Typing / Editing' },
+    { type: 'item', group: 'photo', label: 'CV / Document Preparation' },
+    { type: 'item', group: 'photo', label: 'Binding and Laminating' },
+    { type: 'subtotal', group: 'photo', label: 'Total Photo / Document Services' },
+    { type: 'section', label: '3. Other Services and Weekly Closing' },
+    { type: 'item', group: 'other', label: 'Online and Other Related Services' },
+    { type: 'income', label: 'Total Daily Service Income' },
+    { type: 'expense', label: 'Daily Service Expenses' },
+    { type: 'net', label: 'Net Daily Collections' },
+  ];
+  const ENTRY_ROWS = LAYOUT.filter(r => r.type === 'item' || r.type === 'expense');
+
+  const DEFAULT_DECLARATION = 'I confirm that the weekly printing-service totals have been reviewed against supporting receipts, job slips and payment records and are correct to the best of my knowledge.';
+
+  const SAMPLE = {
+    meta: {
+      week: '45', from: '2026-11-02', to: '2026-11-08',
+      branch: 'Mbale Main Branch - Cathedral Ave',
+      prepared: 'Mr. Wesina Bosco', checked: 'Dr. Wesina Bosco',
+      audit: '2026-11-09', status: 'Audited Weekly',
+      closing: 'Heavy printing demand during the week. Receipts, job slips and payment messages should be attached for verification.',
+      declaration: DEFAULT_DECLARATION,
+    },
+    entries: [
+      { name: 'Black-and-White Printing', values: [48000, 39000, 54000, 42000, 65000, 31000, 12000], remark: 'Exam papers printing surge from nearby secondary school' },
+      { name: 'Colour Printing', values: [25000, 18000, 32000, 20000, 45000, 28000, 15000], remark: 'Graduation brochures and certificates' },
+      { name: 'Black-and-White Photocopying', values: [34000, 28000, 42000, 31000, 48000, 22000, 8000] },
+      { name: 'Colour Photocopying', values: [16000, 12000, 18000, 14000, 24000, 15000, 6000] },
+      { name: 'ID Photocopying', values: [12000, 9000, 14000, 11000, 16000, 8000, 3000] },
+      { name: 'Passport-Size Photographs', values: [35000, 25000, 40000, 30000, 50000, 35000, 15000], remark: 'High volume passport photos for UNEB and passport registration' },
+      { name: 'Photo Printing', values: [14000, 10000, 22000, 12000, 28000, 26000, 18000] },
+      { name: 'Scanning', values: [9500, 7000, 11000, 8500, 14000, 6000, 2000] },
+      { name: 'Typing / Editing', values: [18000, 14000, 22000, 16000, 25000, 12000, 5000] },
+      { name: 'CV / Document Preparation', values: [20000, 15000, 25000, 18000, 30000, 15000, 5000] },
+      { name: 'Binding and Laminating', values: [15000, 12000, 21000, 16000, 35000, 18000, 4000] },
+      { name: 'Online and Other Related Services', values: [32000, 28000, 45000, 30000, 52000, 25000, 10000], remark: 'URA tax return filings and university online applications' },
+      { name: 'Daily Service Expenses', values: [52000, 15000, 30000, 12000, 35000, 10000, 6000] },
+    ],
+  };
+
+  /* ---------- Helpers ---------- */
+
+  const $ = sel => document.querySelector(sel);
+  const tbody = $('#records tbody');
+  const fmt = n => 'UGX ' + Math.round(n || 0).toLocaleString('en-UG');
+  const sum = arr => arr.reduce((a, b) => a + b, 0);
+  const zeros = () => DAYS.map(() => 0);
+  const toNum = v => { const n = Number(v); return Number.isFinite(n) && n >= 0 ? n : 0; };
+
+  const storage = {
+    get(key, fallback) {
+      try { const s = localStorage.getItem(key); return s ? JSON.parse(s) : fallback; }
+      catch { return fallback; }
+    },
+    set(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+      catch { return false; }
+    },
+  };
+
+  let toastTimer;
+  function toast(msg) {
+    const t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+
+  // ISO-8601 week helpers (weeks start on Monday)
+  const toISO = d => d.toISOString().slice(0, 10);
+  function parseDate(s) { const d = new Date(s + 'T00:00:00Z'); return isNaN(d) ? null : d; }
+  function addDays(d, n) { const c = new Date(d); c.setUTCDate(c.getUTCDate() + n); return c; }
+  function mondayOf(d) { return addDays(d, -((d.getUTCDay() + 6) % 7)); }
+  function isoWeek(d) {
+    const t = addDays(d, 3 - ((d.getUTCDay() + 6) % 7)); // Thursday of this week
+    const jan4 = new Date(Date.UTC(t.getUTCFullYear(), 0, 4));
+    return 1 + Math.round(((t - jan4) / 864e5 - 3 + ((jan4.getUTCDay() + 6) % 7)) / 7);
+  }
+
+  /* ---------- Table ---------- */
+
+  function el(tag, attrs = {}, text) {
+    const e = document.createElement(tag);
+    Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function buildTable() {
+    tbody.replaceChildren();
+    LAYOUT.forEach((row, i) => {
+      const tr = el('tr', { 'data-i': i });
+      if (row.type === 'section') {
+        tr.className = 'section';
+        tr.append(el('td', { colspan: 10 }, row.label));
+      } else {
+        const editable = row.type === 'item' || row.type === 'expense';
+        if (!editable) tr.className = 'total';
+        tr.append(el('th', { scope: 'row', style: 'background:inherit;color:inherit;position:static;text-align:left' }, row.label));
+        DAYS.forEach((day, j) => {
+          const td = el('td');
+          if (editable) {
+            td.append(el('input', {
+              class: 'money', type: 'number', min: 0, step: 500, inputmode: 'numeric',
+              'data-day': j, 'aria-label': `${row.label}, ${day}`, value: 0,
+            }));
+          } else {
+            td.setAttribute('data-sum', j);
+            td.textContent = fmt(0);
+          }
+          tr.append(td);
+        });
+        tr.append(el('td', { 'data-week': '' }, fmt(0)));
+        const rem = el('td');
+        if (editable) rem.append(el('input', { class: 'remark', 'data-remark': '', 'aria-label': `${row.label}, remarks`, maxlength: 200 }));
+        tr.append(rem);
+      }
+      tbody.append(tr);
+    });
+  }
+
+  const rowEl = i => tbody.querySelector(`tr[data-i="${i}"]`);
+  const readValues = tr => DAYS.map((_, j) => toNum(tr.querySelector(`[data-day="${j}"]`).value));
+
+  function writeTotals(tr, values) {
+    values.forEach((n, j) => {
+      const c = tr.querySelector(`[data-sum="${j}"]`);
+      c.textContent = fmt(n);
+      c.classList.toggle('negative', n < 0);
+    });
+    const w = sum(values);
+    const wc = tr.querySelector('[data-week]');
+    wc.textContent = fmt(w);
+    wc.classList.toggle('negative', w < 0);
+  }
+
+  function calculate() {
+    const groups = {};
+    let income = zeros(), expense = zeros();
+
+    // Pass 1: read entries
+    LAYOUT.forEach((row, i) => {
+      if (row.type !== 'item' && row.type !== 'expense') return;
+      const tr = rowEl(i);
+      const v = readValues(tr);
+      tr.querySelector('[data-week]').textContent = fmt(sum(v));
+      if (row.type === 'item') {
+        groups[row.group] = (groups[row.group] || zeros()).map((s, j) => s + v[j]);
+        income = income.map((s, j) => s + v[j]);
+      } else {
+        expense = v;
+      }
+    });
+    const net = income.map((s, j) => s - expense[j]);
+
+    // Pass 2: write computed rows
+    LAYOUT.forEach((row, i) => {
+      if (row.type === 'subtotal') writeTotals(rowEl(i), groups[row.group] || zeros());
+      if (row.type === 'income') writeTotals(rowEl(i), income);
+      if (row.type === 'net') writeTotals(rowEl(i), net);
+    });
+
+    const totalNet = sum(net);
+    $('#income').textContent = fmt(sum(income));
+    $('#expenses').textContent = fmt(sum(expense));
+    $('#net').textContent = fmt(totalNet);
+    $('#net').classList.toggle('negative', totalNet < 0);
+    const status = $('#status').value;
+    const sv = $('#statusView');
+    sv.textContent = status;
+    sv.className = 'status-' + status.split(' ')[0];
+  }
+
+  /* ---------- Record (de)serialisation ---------- */
+
+  function snapshot() {
+    const meta = Object.fromEntries(META_FIELDS.map(id => [id, $('#' + id).value]));
+    const entries = [];
+    LAYOUT.forEach((row, i) => {
+      if (row.type !== 'item' && row.type !== 'expense') return;
+      const tr = rowEl(i);
+      entries.push({ name: row.label, values: readValues(tr), remark: tr.querySelector('[data-remark]').value });
+    });
+    return { version: 2, meta, entries };
+  }
+
+  function applyRecord(d) {
+    if (!d || typeof d !== 'object' || !d.meta || !Array.isArray(d.entries)) throw new Error('This is not a valid WFS weekly record file.');
+    META_FIELDS.forEach(id => {
+      const v = d.meta[id];
+      $('#' + id).value = v == null ? (id === 'status' ? 'Draft' : '') : String(v);
+    });
+    if (!$('#status').value) $('#status').value = 'Draft';
+    LAYOUT.forEach((row, i) => {
+      if (row.type !== 'item' && row.type !== 'expense') return;
+      const tr = rowEl(i);
+      const e = d.entries.find(z => z && z.name === row.label) || {};
+      const vals = Array.isArray(e.values) ? e.values : [];
+      DAYS.forEach((_, j) => { tr.querySelector(`[data-day="${j}"]`).value = toNum(vals[j]); });
+      tr.querySelector('[data-remark]').value = typeof e.remark === 'string' ? e.remark : '';
+    });
+    tbody.querySelectorAll('.money.invalid').forEach(x => x.classList.remove('invalid'));
+    calculate();
+  }
+
+  function blankRecord(previous) {
+    const today = mondayOf(parseDate(toISO(new Date())));
+    let from = today;
+    const prevFrom = previous && parseDate(previous.meta.from);
+    if (prevFrom) from = addDays(mondayOf(prevFrom), 7);
+    return {
+      meta: {
+        week: String(isoWeek(from)), from: toISO(from), to: toISO(addDays(from, 6)),
+        branch: previous?.meta.branch || '', prepared: previous?.meta.prepared || '', checked: previous?.meta.checked || '',
+        audit: '', status: 'Draft', closing: '', declaration: previous?.meta.declaration || DEFAULT_DECLARATION,
+      },
+      entries: [],
+    };
+  }
+
+  const recordKey = r => `${r.meta.from || 'undated'}|${(r.meta.branch || '').trim()}`;
+
+  /* ---------- Saved weeks ---------- */
+
+  function renderSaved() {
+    const weeks = storage.get(STORE_WEEKS, {});
+    const keys = Object.keys(weeks).sort().reverse();
+    const list = $('#savedList');
+    list.replaceChildren();
+    $('#savedEmpty').hidden = keys.length > 0;
+    keys.forEach(key => {
+      const r = weeks[key];
+      const li = el('li');
+      const net = sum(r.entries.filter(e => e.name !== 'Daily Service Expenses').flatMap(e => e.values.map(toNum)))
+        - sum((r.entries.find(e => e.name === 'Daily Service Expenses')?.values || []).map(toNum));
+      const info = el('span', {}, `Week ${r.meta.week || '?'} · ${r.meta.from || '—'} to ${r.meta.to || '—'} · ${r.meta.branch || 'No branch'} · ${r.meta.status} · Net ${fmt(net)}`);
+      const btns = el('span', { class: 'actions' });
+      const open = el('button', { type: 'button', class: 'secondary' }, 'Open');
+      open.onclick = () => { applyRecord(r); saveDraft(); toast(`Opened week ${r.meta.week}.`); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+      const del = el('button', { type: 'button', class: 'danger' }, 'Delete');
+      del.onclick = () => {
+        if (!confirm(`Delete saved week ${r.meta.week} (${r.meta.from})? This cannot be undone.`)) return;
+        const all = storage.get(STORE_WEEKS, {}); delete all[key]; storage.set(STORE_WEEKS, all); renderSaved(); toast('Saved week deleted.');
+      };
+      btns.append(open, del);
+      li.append(info, btns);
+      list.append(li);
+    });
+  }
+
+  function saveWeek() {
+    const r = snapshot();
+    if (!r.meta.from) { toast('Enter the week start date before saving.'); $('#from').focus(); return; }
+    const all = storage.get(STORE_WEEKS, {});
+    const key = recordKey(r);
+    if (all[key] && !confirm(`Week starting ${r.meta.from} for this branch is already saved. Overwrite it?`)) return;
+    all[key] = { ...r, savedAt: new Date().toISOString() };
+    if (!storage.set(STORE_WEEKS, all)) { toast('Could not save — browser storage is unavailable or full. Export JSON instead.'); return; }
+    renderSaved();
+    toast(`Week ${r.meta.week} saved in this browser.`);
+  }
+
+  let draftTimer;
+  function saveDraft() { storage.set(STORE_DRAFT, snapshot()); }
+  function queueDraft() { clearTimeout(draftTimer); draftTimer = setTimeout(saveDraft, 400); }
+
+  /* ---------- Import / export ---------- */
+
+  function download(name, content, type) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([content], { type }));
+    a.download = name;
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  const fileBase = () => {
+    const m = snapshot().meta;
+    return `WFS-week-${m.week || 'x'}${m.from ? '-' + m.from : ''}`;
+  };
+
+  function exportCSV() {
+    const q = v => { const s = String(v ?? ''); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+    const lines = [];
+    const r = snapshot();
+    META_FIELDS.forEach(id => lines.push([id, r.meta[id]].map(q).join(',')));
+    lines.push('');
+    lines.push(['Item / Particulars', ...DAYS, 'Weekly total', 'Remarks'].map(q).join(','));
+    LAYOUT.forEach((row, i) => {
+      const tr = rowEl(i);
+      if (row.type === 'section') { lines.push(q(row.label)); return; }
+      let vals;
+      if (row.type === 'item' || row.type === 'expense') vals = readValues(tr);
+      else vals = DAYS.map((_, j) => Number(tr.querySelector(`[data-sum="${j}"]`).textContent.replace(/[^\d-]/g, '')) || 0);
+      const remark = tr.querySelector('[data-remark]')?.value || '';
+      lines.push([row.label, ...vals, sum(vals), remark].map(q).join(','));
+    });
+    download(fileBase() + '.csv', '﻿' + lines.join('\r\n'), 'text/csv');
+  }
+
+  /* ---------- Wiring ---------- */
+
+  function onInput(e) {
+    const t = e.target;
+    if (t.classList && t.classList.contains('money')) {
+      const bad = t.value !== '' && !(Number(t.value) >= 0);
+      t.classList.toggle('invalid', bad);
+    }
+    calculate();
+    queueDraft();
+  }
+
+  function init() {
+    buildTable();
+
+    document.addEventListener('input', e => { if (e.target.closest('main')) onInput(e); });
+    $('#status').addEventListener('change', () => { calculate(); queueDraft(); });
+
+    // Keep "To" and week number in step with the "From" date
+    $('#from').addEventListener('change', () => {
+      const d = parseDate($('#from').value);
+      if (!d) return;
+      $('#to').value = toISO(addDays(d, 6));
+      $('#week').value = isoWeek(d);
+      queueDraft();
+    });
+
+    // Select a money cell's contents on focus for quick overwriting
+    tbody.addEventListener('focusin', e => { if (e.target.classList.contains('money')) e.target.select(); });
+
+    $('#save').onclick = saveWeek;
+    $('#newWeek').onclick = () => {
+      if (!confirm('Start a new blank week? Unsaved changes to the current week will be lost unless you saved it.')) return;
+      applyRecord(blankRecord(snapshot()));
+      saveDraft();
+      toast('New blank week started.');
+    };
+    $('#print').onclick = () => window.print();
+    $('#export').onclick = () => download(fileBase() + '.json', JSON.stringify(snapshot(), null, 2), 'application/json');
+    $('#csv').onclick = exportCSV;
+    $('#importBtn').onclick = () => $('#importFile').click();
+    $('#importFile').onchange = e => {
+      const f = e.target.files[0];
+      e.target.value = '';
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try { applyRecord(JSON.parse(reader.result)); saveDraft(); toast('Record imported. Click "Save week" to keep it.'); }
+        catch (err) { alert(err instanceof SyntaxError ? 'The file is not valid JSON.' : err.message); }
+      };
+      reader.readAsText(f);
+    };
+    $('#reset').onclick = () => {
+      if (!confirm('Replace the current screen with the Week 45 sample record?')) return;
+      applyRecord(SAMPLE);
+      saveDraft();
+    };
+
+    // Migrate the single version-1 saved record into the saved-weeks list
+    const legacy = storage.get(STORE_LEGACY, null);
+    if (legacy && legacy.meta && Array.isArray(legacy.entries)) {
+      const all = storage.get(STORE_WEEKS, {});
+      const key = recordKey(legacy);
+      if (!all[key]) { all[key] = { version: 2, ...legacy }; storage.set(STORE_WEEKS, all); }
+    }
+
+    // Restore the working draft, else show the sample
+    const draft = storage.get(STORE_DRAFT, null);
+    try { applyRecord(draft || SAMPLE); } catch { applyRecord(SAMPLE); }
+    renderSaved();
+  }
+
+  init();
+})();
 </script>
-</body></html>
+</body>
+</html>
